@@ -2,27 +2,29 @@ import prompt from "@jace1995/readline";
 
 var score: number = 0;
 
-function GenerateKey(): number {
-   const Key = Math.ceil ( Math.random() * 4 );
-   return Key;
+function generateKey(): string {
+    const char = ['+', '-', '*', '/'];
+    const key = Math.floor( Math.random() * 4 );
+   return char[key];
 }
 
-function Operation(num1: number, num2: number, Key: number): number {
-      switch (Key) {
-          case 1:
+function operation(num1: number, num2: number, key: string): number {
+      switch (key) {
+          case '+':
              return num1 + num2; 
-          case 2:
+          case '-':
              return num1 - num2;           
-          case 3:
+          case '*':
              return num1 * num2;     
-          case 4: 
+          case '/': 
              return Math.round(num1 / num2 * 10) / 10;  
           default: 
              return 0;    
       }
  }
+ 
 
- function Generate(): number {
+ function generate(): number {
    const min = -10;
    const max = 10;
    const res = Math.round(Math.random()  * (max - min ) + min);
@@ -32,24 +34,23 @@ function Operation(num1: number, num2: number, Key: number): number {
  async function main() {
  while (true) {
      
-     const numberFirst = Generate();
-     const numberSecond = Generate();
-     const Key = GenerateKey();
-     const Char = ['+', '-', '*', '/'];
-     const Result = Operation(numberFirst, numberSecond, Key);
-     const Answ = await prompt(`${numberFirst} ${Char[ Key - 1 ]} ${numberSecond} = `);
+     const numberFirst = generate();
+     const numberSecond = generate();
+     const key = generateKey();
+     const result = operation(numberFirst, numberSecond, key);
+     const answ = await prompt(`${numberFirst} ${key} ${numberSecond} = `);
 
-    if (Answ == "!exit") {
+    if (answ == "!exit") {
         console.log(`Содержание алкоголя ~${score / 10}00 промилле!`);
       
         break;
     }
 
-    if (Number(Answ) == Result) {
+    if (Number(answ) == result) {
         console.log("Наливай еще!");
     } else {
         score++;
-        console.log(`Хватит пить!\nВерный ответ: ${Result}`);
+        console.log(`Хватит пить!\nВерный ответ: ${result}`);
     }
  }
 }
