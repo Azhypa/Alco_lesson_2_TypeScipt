@@ -18,6 +18,8 @@ function operation(num1: number, num2: number, key: string): number {
       return num1 * num2;
     case '/':
       return Math.round(num1 / num2 * 10) / 10;
+    default:
+      return NaN;
   }
 }
 
